@@ -1,0 +1,38 @@
+npm init -y; npm i express @supabase/supabase-js --no-workspaces; npm i -D typescript @types/node @types/express tsx --no-workspaces; npx tsc --init
+
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtieHd1a29sYWNkZmJnZHllYXdhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MDgwMzYzOSwiZXhwIjoyMTA2Mzc5NjM5fQ.GIFd2h7aj-D6wtu9Ta5FNLLfD_sv7R1mJa57eRP3XFs
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtieHd1a29sYWNkZmJnZHllYXdhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MDM2MzksImV4cCI6MjEwNjM3OTYzOX0.rbLNSr21R49f66YrBC4HDOrbFKkh4r48UVJ3lp7UhhA
+SUPABASE_URL=https://kbxwukolacdfbgdyeawa.supabase.co
+
+{
+    "nome_cliente": "Mariana Souza Santos",
+    "telefone": "11988887777",
+    "email": "mariana.obra@email.com",
+    "metragem": 250.00,
+    "tipo_limpeza_id": 3
+}
+
+
+create table tipos_limpeza (
+  
+  id_limpeza BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nome varchar (100) not null unique,
+  preco_por_m2 decimal (10, 2) not null,
+  descricao text
+
+);
+
+
+create table pedidos_orcamento (
+
+  id_pedidos BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nome_cliente varchar (150) not null,
+  telefone varchar (20) not null, 
+  email varchar (150) not null,
+  metragem decimal (10, 2) not null,
+  tipo_de_limpeza int,
+  valor_total decimal (10, 2) not null,
+  status varchar (20) default 'pendente',
+  criado_em timestamp default current_timestamp,
+  foreign key (tipo_de_limpeza) references tipos_limpeza (id_limpeza) on delete set null
+);
